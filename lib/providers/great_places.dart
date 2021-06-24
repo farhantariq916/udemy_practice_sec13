@@ -22,7 +22,7 @@ class GreatPlaces with ChangeNotifier {
           latitude: 31.5204,
           longitude: 74.3587,
         ));
-    items.add(newPlace);
+    _items.add(newPlace);
     notifyListeners();
   }
 }

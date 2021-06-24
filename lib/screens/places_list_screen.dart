@@ -14,18 +14,35 @@ class PlacesListScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: (){
+            onPressed: () {
               Navigator.pushNamed(context, AddPlaceScreen.routeName);
             },
           ),
         ],
       ),
       body: Consumer<GreatPlaces>(
-        child:Center(
+        child: Center(
           child: Text('Got no places yet, start adding some!'),
         ),
-        builder: (context,greatPlaces,child)=>greatPlaces.items.length<=0?child : ListView(),
+        builder: (context, greatPlaces, child) => SizedBox(
+          child: greatPlaces.items.length <= 0
+              ? child
+              : ListView.builder(
+            itemCount: greatPlaces.items.length ,
+                  itemBuilder: (context,index)=>ListTile(
+                    leading:  CircleAvatar(
+                      backgroundImage: FileImage(greatPlaces.items[index].image),
+                    ),
+                    title: Text(greatPlaces.items[index].title.toString()),
+                    onTap: (){
+                      //we'll go to detail page
+                    },
+
+                  ),
+
+                ),
         ),
+      ),
     );
   }
 }

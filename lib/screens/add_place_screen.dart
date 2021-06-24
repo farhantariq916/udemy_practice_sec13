@@ -24,7 +24,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     if (_titleController.text.isEmpty) {
       return;
     }
-    Provider.of<GreatPlaces>(context).addPlace(
+    Provider.of<GreatPlaces>(context,listen: false).addPlace(
       _titleController.text,
       _pickedImage,
     );
@@ -65,7 +65,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
             elevation: 0,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             color: Theme.of(context).accentColor,
-            onPressed: () {},
+            onPressed: _savePlace,
           ),
         ],
       ),
