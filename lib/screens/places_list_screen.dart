@@ -10,7 +10,7 @@ class PlacesListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Places'),
+        title:Text('Your Places'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -20,28 +20,36 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        child: Center(
-          child: Text('Got no places yet, start adding some!'),
-        ),
-        builder: (context, greatPlaces, child) => SizedBox(
-          child: greatPlaces.items.length <= 0
-              ? child
-              : ListView.builder(
-            itemCount: greatPlaces.items.length ,
-                  itemBuilder: (context,index)=>ListTile(
-                    leading:  CircleAvatar(
-                      backgroundImage: FileImage(greatPlaces.items[index].image),
-                    ),
-                    title: Text(greatPlaces.items[index].title.toString()),
-                    onTap: (){
-                      //we'll go to detail page
-                    },
-
-                  ),
-
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context).fetchAndSetPlaces(),
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer<GreatPlaces>(
+                child: Center(
+                  child: Text('Got no places yet, start adding some!'),
                 ),
-        ),
+                builder: (context, greatPlaces, child) => SizedBox(
+                  child: greatPlaces.items.length <= 0
+                      ? child
+                      : ListView.builder(
+                          itemCount: greatPlaces.items.length,
+                          itemBuilder: (context, index) => ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  FileImage(greatPlaces.items[index].image),
+                            ),
+                            title:
+                                Text(greatPlaces.items[index].title.toString()),
+                            onTap: () {
+                              //we'll go to detail page
+                            },
+                          ),
+                        ),
+                ),
+              ),
       ),
     );
   }
